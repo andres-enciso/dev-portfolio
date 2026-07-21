@@ -2,10 +2,13 @@
 
 Bilingual (ES/EN) developer portfolio with print-friendly CV, built with Astro, Tailwind CSS v4, and Alpine.js.
 
+**🔗 Live site: [andresenciso.vercel.app](https://andresenciso.vercel.app/es/)**
+
 ![Astro Badge](https://img.shields.io/badge/Astro-BC52EE?logo=astro&logoColor=fff&style=flat)
 ![TailwindCSS](https://img.shields.io/badge/tailwindcss-0F172A?&logo=tailwindcss)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=fff&style=flat)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff&style=flat)
+![Vercel](https://img.shields.io/badge/Vercel-000000?logo=vercel&logoColor=fff&style=flat)
 
 ## Features
 
