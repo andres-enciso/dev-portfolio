@@ -1,41 +1,66 @@
 ---
-import { basics } from "@cv";
 import Vengeance from "@/layouts/Vengeance.astro";
 import "@/styles/global.css";
+import { SITE_URL } from "@/config";
+import type { Lang } from "@/i18n";
 
 interface Props {
 	title: string;
+	lang: Lang;
+	description: string;
+	altLang: Lang;
 }
 
-const { title } = Astro.props;
+const { title, lang, description, altLang } = Astro.props;
 
-const { image, summary, url, theme } = basics;
+const image = "/me_avatar.jpg";
+const canonicalUrl = `${SITE_URL}/${lang}/`;
+const ogImage = `${SITE_URL}${image}`;
+const theme = "blue";
+
+const jsonLd = {
+	"@context": "https://schema.org",
+	"@type": "Person",
+	name: "Andrés Enciso",
+	url: SITE_URL,
+	jobTitle: "Senior Full Stack Developer",
+	sameAs: [
+		"https://www.linkedin.com/in/andres-enciso7u",
+		"https://github.com/andres-enciso",
+	],
+};
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
 	<head>
 		<meta charset="UTF-8" />
 		<title>{title}</title>
-		<meta name="description" content={summary} />
+		<meta name="description" content={description} />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="preload" as="image" href={image} />
 
-		<meta property="og:url" content={url} />
+		<link rel="canonical" href={canonicalUrl} />
+		<link rel="alternate" hreflang="es" href={`${SITE_URL}/es/`} />
+		<link rel="alternate" hreflang="en" href={`${SITE_URL}/en/`} />
+		<link rel="alternate" hreflang="x-default" href={`${SITE_URL}/es/`} />
+
+		<meta property="og:url" content={canonicalUrl} />
 		<meta property="og:type" content="website" />
 		<meta property="og:title" content={title} />
-		<meta property="og:description" content={summary} />
-		<meta property="og:image" content="" />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={ogImage} />
+		<meta property="og:locale" content={lang === "es" ? "es_MX" : "en_US"} />
 
 		<meta name="twitter:card" content="summary_large_image" />
-		<meta property="twitter:domain" content={url.split("//")[1] ?? ""} />
-		<meta property="twitter:url" content={url} />
+		<meta property="twitter:domain" content={SITE_URL.replace("https://", "")} />
+		<meta property="twitter:url" content={canonicalUrl} />
 		<meta name="twitter:title" content={title} />
-		<meta name="twitter:description" content={summary} />
-		<meta name="twitter:image" content="" />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImage} />
 
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Itim" />
+		<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
 		<Vengeance />
 	</head>
@@ -177,6 +202,31 @@ const { image, summary, url, theme } = basics;
 			}));
 
 			Alpine.start();
+
+			// Scroll reveal - Intersection Observer
+			const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+			if (!prefersReducedMotion) {
+				const observer = new IntersectionObserver(
+					(entries) => {
+						entries.forEach((entry) => {
+							if (entry.isIntersecting) {
+								entry.target.classList.add("revealed");
+								observer.unobserve(entry.target);
+							}
+						});
+					},
+					{ threshold: 0.1 }
+				);
+
+				document.querySelectorAll(".scroll-reveal").forEach((el) => {
+					observer.observe(el);
+				});
+			} else {
+				document.querySelectorAll(".scroll-reveal").forEach((el) => {
+					el.classList.add("revealed");
+				});
+			}
 		</script>
 	</body>
 </html>

@@ -1,0 +1,58 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getTranslations, type Lang } from "@/i18n";
+
+import About from "@/components/sections/About.astro";
+import Education from "@/components/sections/Education.astro";
+import Experience from "@/components/sections/Experience.astro";
+import Hero from "@/components/sections/Hero.astro";
+import Projects from "@/components/sections/Projects.astro";
+import Skills from "@/components/sections/Skills.astro";
+import Languages from "@/components/sections/Languages.astro";
+import Contact from "@/components/sections/Contact.astro";
+import KeyboardManager from "@/components/KeyboardManager.astro";
+import ThemeSwitch from "@/components/ThemeSwitch.astro";
+import LanguageSwitch from "@/components/LanguageSwitch.astro";
+
+export function getStaticPaths() {
+	return [{ params: { lang: "es" } }, { params: { lang: "en" } }];
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = getTranslations(lang);
+const altLang: Lang = lang === "es" ? "en" : "es";
+---
+
+<Layout title={t.layout.title} lang={lang} description={t.layout.description} altLang={altLang}>
+	<main class="relative grid max-w-7xl gap-12 p-8 max-sm:py-16 md:grid-cols-6 md:p-16 xl:gap-24 print:max-w-none print:grid-cols-1 print:gap-6">
+		<div class="space-y-6 md:col-span-2 print:col-span-1 print:grid print:grid-cols-2 print:gap-5 print:space-y-0">
+			<Hero t={t.hero} />
+			<About t={t.about} />
+			<Languages t={t.languages} />
+			<div class="no-print flex flex-wrap gap-2">
+				<LanguageSwitch lang={lang} />
+				<ThemeSwitch />
+			</div>
+		</div>
+		<div class="space-y-12 md:col-span-4 print:col-span-1 print:grid print:grid-cols-4 print:gap-2 print:space-y-0">
+			<Experience t={t.experience} className="print:col-span-3" />
+			<Projects t={t.projects} className="print:hidden" />
+			<Skills t={t.skills} className="print:hidden" />
+			<Education t={t.education} />
+			<Contact t={t.contact} email={t.hero.email} linkedinUrl={t.hero.profiles.find(p => p.network === "LinkedIn")?.url || ""} />
+		</div>
+	</main>
+
+	<KeyboardManager t={t.footer} />
+</Layout>
+
+<style>
+	@page {
+		size: auto;
+		margin: 0mm;
+	}
+	main {
+		margin: auto;
+		width: 100%;
+	}
+</style>

@@ -1,12 +1,16 @@
 ---
 import Section from "../Section.astro";
+import type { Translations } from "@/i18n";
 
-import { basics } from "@cv";
-const { summary } = basics;
+interface Props {
+	t: Translations["about"];
+}
+
+const { t } = Astro.props;
 ---
 
-<Section title="About">
+<Section title={t.title}>
 	<p>
-		{summary}
+		{t.summary}
 	</p>
 </Section>

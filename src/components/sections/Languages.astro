@@ -1,0 +1,24 @@
+---
+import Section from "../Section.astro";
+import type { Translations } from "@/i18n";
+
+interface Props {
+	t: Translations["languages"];
+	className?: string;
+}
+
+const { t, className } = Astro.props;
+---
+
+<Section className={className} title={t.title}>
+	<ul class="space-y-2">
+		{
+			t.items.map(({ language, level }) => (
+				<li class="flex items-center justify-between text-sm">
+					<span class="font-medium text-skin-base">{language}</span>
+					<span class="text-skin-muted">{level}</span>
+				</li>
+			))
+		}
+	</ul>
+</Section>

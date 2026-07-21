@@ -1,88 +1,110 @@
-## Print-friendly portfolio CV
+# Andrés Enciso - Dev Portfolio
 
-![preview](https://github.com/user-attachments/assets/44c47034-06e4-412a-b9dd-014593b32215)
+Bilingual (ES/EN) developer portfolio with print-friendly CV, built with Astro, Tailwind CSS v4, and Alpine.js.
 
 ![Astro Badge](https://img.shields.io/badge/Astro-BC52EE?logo=astro&logoColor=fff&style=flat)
 ![TailwindCSS](https://img.shields.io/badge/tailwindcss-0F172A?&logo=tailwindcss)
-![GitHub stars](https://img.shields.io/github/stars/Smilesharks/dev-portfolio)
-![GitHub issues](https://img.shields.io/github/issues/Smilesharks/dev-portfolio)
-![GitHub forks](https://img.shields.io/github/forks/Smilesharks/dev-portfolio)
-![GitHub PRs](https://img.shields.io/github/issues-pr/Smilesharks/dev-portfolio)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=fff&style=flat)
+![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff&style=flat)
 
-## ✨ Features
+## Features
 
-- **Print-friendly** - Optimised layout for PDF export and printing
+- **Bilingual (ES/EN)** - i18n system with dynamic routes (`/es/`, `/en/`)
+- **Print-friendly** - Optimized layout for PDF export and printing
 - **Dark/Light mode** - System preference detection with manual override
-- **5 Colour themes** - Default, blue, red, green, and cyber themes
-- **Keyboard shortcuts** - Command palette with `Cmd/Ctrl + K`
-- **Responsive design** - Mobile-first approach with Tailwind CSS 4
-- **JSON-based content** - Easy content management via `cv.json`
+- **5 Color themes** - Default, blue, red, green, and cyber
+- **Command palette** - Keyboard shortcuts with `Cmd/Ctrl + K`
+- **Scroll animations** - Intersection Observer with `prefers-reduced-motion` support
+- **Project modals** - Clickable cards with image, description, highlights, and action buttons
+- **Skills by category** - Organized into Languages, Frameworks, Cloud & DB, and Tools
+- **Availability badge** - Animated "Available for work" indicator
+- **Contact CTA** - Call-to-action section with email and LinkedIn
+- **SEO** - Open Graph, Twitter Cards, JSON-LD, canonical URLs, hreflang, sitemap, robots.txt
+- **Responsive** - Mobile-first with Tailwind CSS v4
+- **Docker ready** - Multi-stage build with Nginx
 
-## 🛠️ Stack
+## Stack
 
-- [**Astro**](https://astro.build/) - The next-gen web framework.
-- [**Tailwind CSS 4**](https://tailwindcss.com/) - A utility-first CSS framework with CSS-first configuration.
-- [**Alpine.js**](https://alpinejs.dev/) - Lightweight JavaScript framework for composing behaviour.
-- [**Typescript**](https://www.typescriptlang.org/) - JavaScript with type syntax.
-- [**HotKeyPad**](https://github.com/nicosommi/hotkeypad) - Command palette with keyboard shortcuts.
+- [**Astro**](https://astro.build/) - Static site generator
+- [**Tailwind CSS v4**](https://tailwindcss.com/) - Utility-first CSS with CSS-first config
+- [**Alpine.js**](https://alpinejs.dev/) - Lightweight JS for interactivity
+- [**TypeScript**](https://www.typescriptlang.org/) - Type-safe JavaScript
+- [**HotKeyPad**](https://github.com/nicosommi/hotkeypad) - Command palette
+- [**Docker**](https://www.docker.com/) + [**Nginx**](https://nginx.org/) - Containerized deployment
 
-## 🚀 Getting Started
+## Getting Started
 
-### 1. Use this Repo as an Astro Project Template
-
-- I use [pnpm](https://pnpm.io/installation) as my package manager.
+### With Docker (recommended)
 
 ```bash
-# Enable pnpm on MacOS, WSL & Linux:
+docker compose up -d --build
+```
+
+Open [http://localhost:8080](http://localhost:8080) - redirects to `/es/`.
+
+### Local development
+
+```bash
 corepack enable
-corepack prepare pnpm@latest --activate
-```
-
-# Initialize the project
-```bash
-pnpm create astro@latest -- --template Smilesharks/dev-portfolio
-```
-
-### 2. Add Your Content:
-
-Edit the `cv.json` file to create your own printable Portfolio/CV.
-
-### 3. Launch the Development Server:
-
-```bash
-# Enjoy the results
+corepack prepare pnpm@9 --activate
+pnpm install
 pnpm dev
 ```
-1. Open [**http://localhost:4321**](http://localhost:4321/) in your browser to view the result 🚀
 
-### 4. Customisable colours:
+Open [http://localhost:4321](http://localhost:4321).
 
-Change the `theme` property in `cv.json` and choose one of the available colour themes:
+## Project Structure
 
-| Theme | Description |
-|-------|-------------|
-| `default` | Orange accent (default) |
-| `blue` | Blue/slate accent |
-| `red` | Red/stone accent |
-| `green` | Lime/green accent |
-| `cyber` | Yellow/cyan cyberpunk style |
+```
+src/
+├── i18n/
+│   ├── types.ts          # TypeScript interfaces
+│   ├── es.ts             # Spanish translations & content
+│   ├── en.ts             # English translations & content
+│   └── index.ts          # getTranslations() helper
+├── components/
+│   └── sections/
+│       ├── Hero.astro        # Name, photo, availability badge, social links
+│       ├── About.astro       # Summary
+│       ├── Experience.astro  # Work history with expand/collapse
+│       ├── Projects.astro    # Project cards with modal detail view
+│       ├── Skills.astro      # Skills organized by category
+│       ├── Languages.astro   # Spoken languages
+│       ├── Education.astro   # Degrees & certificates
+│       └── Contact.astro     # CTA with email & LinkedIn
+├── pages/
+│   ├── index.astro           # Redirects to /es/
+│   └── [lang]/index.astro    # Dynamic route for ES/EN
+├── layouts/
+│   └── Layout.astro          # SEO, themes, scroll observer
+├── config.ts                 # Site URL constant
+└── styles/
+    └── global.css            # Themes & scroll animations
+```
 
-Each theme includes light and dark mode variants. The theme selector dropdown allows users to switch between light, dark, and system preference.
+## Content
 
-**Creating custom themes:**
+All content lives in `src/i18n/es.ts` and `src/i18n/en.ts`. Edit these files to update your CV.
 
-Edit `src/styles/global.css` and add your theme variables under the appropriate selectors (`:root [data-theme="your-theme"]` for light mode, `.dark [data-theme="your-theme"]` for dark mode).
+## Themes
 
-## 🧞 Commands
+Change the theme in `src/layouts/Layout.astro`:
 
-|     | Command         | Action                                                                       |
-| :-- | :-------------- | :--------------------------------------------------------------------------- |
-| ⚙️  | `dev` o `start` | Launches a local development server at `localhost:4321`.                   |
-| ⚙️  | `build`         | Checks for errors and creates a production build in `./dist/`. |
-| ⚙️  | `preview`       | Local preview at `localhost:4321`                                       |
+```ts
+const theme = "blue"; // default | blue | red | green | cyber
+```
 
-Wiki: [dev-portfolio](https://deepwiki.com/Smilesharks/dev-portfolio)
+Each theme has light and dark mode variants. Custom themes can be added in `src/styles/global.css`.
 
-CV JSON schema from [**jsonresume.org**](https://jsonresume.org/schema/)
+## Commands
 
-Based on [**Bartosz Jarocki - Print-friendly, minimalist CV page**](https://github.com/BartoszJarocki/cv) and [**Miguel Ángel Durán - minimalist-portfolio-json**](https://github.com/midudev/minimalist-portfolio-json)
+| Command | Action |
+| :--- | :--- |
+| `pnpm dev` | Start dev server at `localhost:4321` |
+| `pnpm build` | Type-check and build to `./dist/` |
+| `pnpm preview` | Preview production build |
+| `docker compose up -d --build` | Build and serve with Docker + Nginx |
+
+## Based on
+
+[Smilesharks/dev-portfolio](https://github.com/Smilesharks/dev-portfolio) - Original template by Smilesharks, based on [Bartosz Jarocki](https://github.com/BartoszJarocki/cv) and [Miguel Ángel Durán](https://github.com/midudev/minimalist-portfolio-json).
